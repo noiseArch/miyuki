@@ -3,6 +3,9 @@ const { exec } = require('child_process');
 const menuTemplate = require('./menu');
 const path = require('path');
 
+const fixPath = require('fix-path');
+fixPath();
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
