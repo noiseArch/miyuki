@@ -2,9 +2,17 @@ const { app, Menu, BrowserWindow } = require('electron');
 const { exec } = require('child_process');
 const menuTemplate = require('./menu');
 const path = require('path');
+const { shellPathSync } = require('shell-path');
 
-const fixPath = require('fix-path');
-fixPath();
+// Esto deberia añadir los directorios faltantes al PATH dentro del enviroment que crea al iniciar la app por el Finder
+if (process.platform !== 'win32') {
+  process.env.PATH = shellPathSync() || [
+    './node_modules/.bin',
+    '/.nodebrew/current/bin',
+    '/usr/local/bin',
+    process.env.PATH,
+  ].join(':');
+}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
